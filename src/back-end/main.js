@@ -16,10 +16,11 @@ const osc = require("node-osc");
 const path = require("path");
 const app = express();
 const client = new osc.Client(serverIp, port);
+const templateGenerator = require("./template-generator");
 
 // Endroutes
 app.get("/", (req, res) => {
-
+    console.log(templateGenerator.apiUrl("10.0.0.168"));
 });
 
 app.use("/static", express.static(path.resolve(__dirname, "../../out")));
@@ -53,5 +54,5 @@ app.get("/api/resume", (req, res) => {
 
 // Start listening for requests.
 app.listen(3000, () => {
-    console.log("App is running");
+    console.log("App is running on: http://localhost:3000");
 });
