@@ -13,6 +13,7 @@ const port = "53000";
 
 const express = require("express");
 const osc = require("node-osc");
+const path = require("path");
 const app = express();
 const client = new osc.Client(serverIp, port);
 
@@ -20,6 +21,8 @@ const client = new osc.Client(serverIp, port);
 app.get("/", (req, res) => {
 
 });
+
+app.use("/static", express.static(path.resolve(__dirname, "../../out")));
 
 // ###############
 //  API Endroutes
