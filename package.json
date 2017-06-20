@@ -7,6 +7,8 @@
     "start": "node src/back-end/main.js",
     "build": "npm run build:front",
     "build:front": "webpack",
+    "watch": "npm run watch:front",
+    "watch:front": "WEBPACK_WATCH=true webpack",
     "lint": "eslint src/**/*.js",
     "test": "npm run lint",
     "backend": "node src/back-end/main.js"

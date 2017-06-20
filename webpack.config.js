@@ -10,5 +10,6 @@ module.exports = {
         loaders: [
             { test: /\.css$/, loader: "style-loader!css-loader" }
         ]
-    }
+    },
+    watch: process.env.WEBPACK_WATCH === "true"
 };
