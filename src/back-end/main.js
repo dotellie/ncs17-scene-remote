@@ -8,7 +8,7 @@
 //      - Pause
 //      - Start
 //
-const serverIp = "localhost";
+const serverIp = "10.0.0.168";
 const port = "53000";
 
 const express = require("express");
@@ -20,7 +20,7 @@ const templateGenerator = require("./template-generator");
 
 // Endroutes
 app.get("/", (req, res) => {
-    console.log(templateGenerator.apiUrl("10.0.0.168"));
+    res.send(templateGenerator(`http://${serverIp}/`));
 });
 
 app.use("/static", express.static(path.resolve(__dirname, "../../out")));
