@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "express": "^4.15.3",
-    "node-osc": "^2.1.0"
+    "node-osc": "^2.1.0",
+    "animejs": "^2.0.2"
   }
 }
