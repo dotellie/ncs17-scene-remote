@@ -28,22 +28,22 @@ app.get("/", (req, res) => {
 // Play Next
 app.get("/api/next", (req, res) => {
     res.send("Sending next osc call to Qlab");
-    client.send("/GO");
+    client.send("/Next");
 });
 
 // Playhead Previous:
 app.get("/api/previous", (req, res) => {
-
+    client.send("/Previous");
 });
 
 // Pause
 app.get("/api/pause", (req, res) => {
-
+    client.send("/Pause-Resume");
 });
 
 // Resume
 app.get("/api/resume", (req, res) => {
-
+    client.send("/Pause-Resume");
 });
 
 // ===========
