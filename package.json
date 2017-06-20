@@ -7,7 +7,8 @@
     "build": "npm run build:front",
     "build:front": "webpack",
     "lint": "eslint src/**/*.js",
-    "test": "npm run lint"
+    "test": "npm run lint",
+    "backend": "node src/back-end/main.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,9 @@
     "babel-eslint": "^7.2.3",
     "eslint": "^4.0.0",
     "webpack": "^3.0.0"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "node-osc": "^2.1.0"
   }
 }
