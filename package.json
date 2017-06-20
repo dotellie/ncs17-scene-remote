@@ -4,6 +4,7 @@
   "description": "A little fun project made by magnonellie and dunderboy for Närcon summer 2017 to control the scene display flow.",
   "main": "src/back-end/main.js",
   "scripts": {
+    "start": "node src/back-end/main.js",
     "build": "npm run build:front",
     "build:front": "webpack",
     "lint": "eslint src/**/*.js",
