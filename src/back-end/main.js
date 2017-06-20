@@ -18,12 +18,13 @@ const app = express();
 const client = new osc.Client(serverIp, port);
 const templateGenerator = require("./template-generator");
 
+// Out dir configuration
+app.use("/static", express.static(path.resolve(__dirname, "../../out")));
+
 // Endroutes
 app.get("/", (req, res) => {
     res.send(templateGenerator(`http://${serverIp}/`));
 });
-
-app.use("/static", express.static(path.resolve(__dirname, "../../out")));
 
 // ###############
 //  API Endroutes
@@ -31,22 +32,25 @@ app.use("/static", express.static(path.resolve(__dirname, "../../out")));
 
 // Play Next
 app.get("/api/next", (req, res) => {
-    res.send("Sending next osc call to Qlab");
+    res.send("Playing next in que");
     client.send("/Next");
 });
 
 // Playhead Previous:
 app.get("/api/previous", (req, res) => {
+    res.send("Playing previous que");
     client.send("/Previous");
 });
 
 // Pause
 app.get("/api/pause", (req, res) => {
+    res.send("Pausing running ques");
     client.send("/Pause-Resume");
 });
 
 // Resume
 app.get("/api/resume", (req, res) => {
+    res.send("Resuming paused ques");
     client.send("/Pause-Resume");
 });
 
