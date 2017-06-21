@@ -52,7 +52,7 @@ app.get("/", (req, res) => {
 app.post("/api/validate", (req, res) => {
     validate(req, res).then(() => {
         res.send({ status: "ok" });
-    });
+    }).catch(() => {});
 });
 
 // ####################
@@ -61,38 +61,37 @@ app.post("/api/validate", (req, res) => {
 
 // Play Next
 app.post("/api/next", (req, res) => {
-    // if (validateCookie(req.cookies.Tooken)) {
-    client.send("/Next");
-    res.send({});
-    // } else {
-    //     res.status(401).send("401 Unathorized access");
-    // }
+    validate(req, res).then(() => {
+        client.send("/Next");
+        res.send({});
+    }).catch(() => {});
 });
 
 // Playhead Previous:
 app.post("/api/previous", (req, res) => {
-    // if (validateCookie(req.cookies.Tooken)) {
-    res.send({});
-    client.send("/Previous");
-    client.send("/Stop");
-    // client.send("/Next");
-    // } else {
-    //    res.status(401).send("401 Unathorized access");
-    // }
+    validate(req, res).then(() => {
+        res.send({});
+        client.send("/Previous");
+        client.send("/Stop");
+    }).catch(() => {});
 });
 
 // Pause
 app.post("/api/pause", (req, res) => {
-    res.send({});
-    client.send("/Previous");
-    client.send("/Pause-Resume");
+    validate(req, res).then(() => {
+        res.send({});
+        client.send("/Previous");
+        client.send("/Pause-Resume");
+    }).catch(() => {});
 });
 
 // Resume
 app.post("/api/resume", (req, res) => {
-    res.send({});
-    // client.send("/Previous");
-    client.send("/Pause-Resume");
+    validate(req, res).then(() => {
+        res.send({});
+        // client.send("/Previous");
+        client.send("/Pause-Resume");
+    }).catch(() => {});
 });
 
 // ===========
