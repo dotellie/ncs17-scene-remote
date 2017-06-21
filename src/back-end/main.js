@@ -1,13 +1,3 @@
-// TODO:
-
-// Initiate Express.
-// Setup all OSC api Pathes.
-//  -Pathes:
-//      - Play Next.
-//      - Previous Playhead
-//      - Pause
-//      - Start
-//
 const serverIp = "10.0.0.168";
 const port = "53000";
 
