@@ -45,6 +45,7 @@ app.get("/api/previous", (req, res) => {
 // Pause
 app.get("/api/pause", (req, res) => {
     res.send("Pausing running ques");
+    client.send("/Previous");
     client.send("/Pause-Resume");
 });
 
