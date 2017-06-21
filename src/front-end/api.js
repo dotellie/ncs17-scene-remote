@@ -12,7 +12,7 @@ export const validateToken = () => {
         };
 
         validate();
-        const interval = setInterval(validate, 5000);
+        const interval = setInterval(validate, 3000);
     });
 };
 
