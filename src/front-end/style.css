@@ -1,4 +1,50 @@
 html, body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-image: radial-gradient(circle farthest-side at 50%, #e23b9b 0%, #a389c9 100%);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.button {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.83);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+.back.button {
+    top: 15px;
+    left: 15px;
+    width: 75px;
+    height: 75px;
+}
+
+.next.button {
+    top: 0; right: 0; bottom: 0; left: 0;
+    margin: auto;
+    width: 70vw;
+    height: 70vw;
+    font-size: 65px;
+    border: 10px solid rgba(226, 59, 155, 0.15);
+}
+
+#action-bar {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    fill: rgba(0, 0, 0, 0.5);
 }
