@@ -1,3 +1,7 @@
+/* globals apiToken */
+
+import { validateToken } from "./api.js";
+
 import animateButton from "./animate-button.js";
 import addRipple from "./ripple.js";
 import { setPlayPauseCallback } from "./play-pause-button";
@@ -26,3 +30,8 @@ animateButton(nextBtn, clickHandler);
 animateButton(backBtn, clickHandler);
 
 setPlayPauseCallback(() => {});
+
+validateToken().then(() => {
+    console.log("token", apiToken);
+    document.cookie = `token=${apiToken}`;
+});
