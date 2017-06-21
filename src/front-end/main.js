@@ -25,6 +25,4 @@ const getElCircle = el => {
 animateButton(nextBtn, clickHandler);
 animateButton(backBtn, clickHandler);
 
-setPlayPauseCallback(() => {
-    console.log("hello world");
-});
+setPlayPauseCallback(() => {});

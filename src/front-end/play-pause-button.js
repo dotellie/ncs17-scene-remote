@@ -8,6 +8,7 @@ export const setPlayPauseCallback = callback => {
     button.onclick = () => {
         playing = !playing;
         changeState(playing);
+        callback();
     };
 };
 
