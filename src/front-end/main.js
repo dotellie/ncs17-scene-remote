@@ -1,18 +1,11 @@
-import anime from "animejs";
-
 import animateButton from "./animate-button.js";
 import addRipple from "./ripple.js";
+import { setPlayPauseCallback } from "./play-pause-button";
 
 import "style-loader!./style.css";
 
 const nextBtn = document.querySelector(".next.button");
 const backBtn = document.querySelector(".back.button");
-
-anime({
-    targets: "#playpause-button polygon",
-    points: "0 0 26 16 26 16 0 32",
-    easing: "easeInOutExpo"
-});
 
 const clickHandler = btn => {
     const spawnRipple = () => {
@@ -31,3 +24,7 @@ const getElCircle = el => {
 
 animateButton(nextBtn, clickHandler);
 animateButton(backBtn, clickHandler);
+
+setPlayPauseCallback(() => {
+    console.log("hello world");
+});

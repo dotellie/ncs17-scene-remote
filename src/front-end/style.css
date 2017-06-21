@@ -48,3 +48,7 @@ body {
 
     fill: rgba(0, 0, 0, 0.5);
 }
+
+#action-bar > * {
+    transition: 0.3s opacity;
+}
