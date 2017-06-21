@@ -58,5 +58,3 @@ class User {
 }
 
 module.exports = new TokenManager();
-
-// if (TokenManager.getValidUser(token, ip)) doCoolStuff()

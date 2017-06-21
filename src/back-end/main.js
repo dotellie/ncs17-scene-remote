@@ -4,12 +4,13 @@ const port = "53000";
 const express = require("express");
 const osc = require("node-osc");
 const path = require("path");
-const app = express();
-const client = new osc.Client(serverIp, port);
-const templateGenerator = require("./template-generator");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const client = new osc.Client(serverIp, port);
+const app = express();
+
+const templateGenerator = require("./template-generator.js");
 const UserManager = require("./user-manager.js");
 const menu = require("./menu.js");
 
