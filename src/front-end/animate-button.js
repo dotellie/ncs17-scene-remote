@@ -1,6 +1,8 @@
 import anime from "animejs";
 
-export default button => {
+export default (button, onclick) => {
+    if (!onclick) onclick = () => {};
+
     let currentPush, currentRelease;
 
     const playPush = () => {
@@ -19,6 +21,7 @@ export default button => {
             duration: 300,
             scale: 1
         });
+        onclick(button);
     };
 
     button.addEventListener("touchstart", playPush);

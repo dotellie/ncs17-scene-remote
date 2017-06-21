@@ -26,10 +26,10 @@ animate();
 window.addEventListener("resize", onResize);
 
 class Ripple {
-    constructor(x, y, delay = -1) {
+    constructor(x, y, r = 0) {
         this.x = x;
         this.y = y;
-        this.r = -delay;
+        this.r = r;
     }
 
     get dead() {
@@ -54,6 +54,6 @@ class Ripple {
     }
 }
 
-export default (x, y, delay) => {
-    ripples.push(new Ripple(x, y, delay));
+export default (x, y, r) => {
+    ripples.push(new Ripple(x, y, r));
 };

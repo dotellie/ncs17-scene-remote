@@ -14,17 +14,20 @@ anime({
     easing: "easeInOutExpo"
 });
 
-animateButton(nextBtn);
-animateButton(backBtn);
+const clickHandler = btn => {
+    const spawnRipple = () => {
+        const circle = getElCircle(btn);
+        addRipple(circle.x, circle.y, circle.r);
+    };
 
-nextBtn.onclick = () => {
-    const center = getElCenter(nextBtn);
-    addRipple(center.x, center.y);
-    // addRipple(center.x, center.y, 5);
-    addRipple(center.x, center.y, 10);
+    spawnRipple();
+    setTimeout(spawnRipple, 200);
 };
 
-const getElCenter = el => {
+const getElCircle = el => {
     const { top, left, width, height } = el.getBoundingClientRect();
-    return { x: left + width / 2, y: top + height / 2 };
+    return { x: left + width / 2, y: top + height / 2, r: width / 2 };
 };
+
+animateButton(nextBtn, clickHandler);
+animateButton(backBtn, clickHandler);
