@@ -6,11 +6,12 @@
         <title>NCS 17 Scene Remote</title>
 
         <script>window.apiUrl = "{{ apiUrl }}"</script>
-        <script async defer src="/static/bundle.js"></script>
 
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     </head>
     <body>
+        <canvas></canvas>
+
         <div class="back button">
             BACK
         </div>
@@ -23,5 +24,7 @@
                 <polygon points="0 0 32 0 32 32 0 32"></polygon>
             </svg>
         </div>
+
+        <script src="/static/bundle.js"></script>
     </body>
 </html>

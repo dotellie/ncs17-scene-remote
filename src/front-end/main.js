@@ -1,6 +1,7 @@
 import anime from "animejs";
 
 import animateButton from "./animate-button.js";
+import addRipple from "./ripple.js";
 
 import "style-loader!./style.css";
 
@@ -15,3 +16,7 @@ anime({
 
 animateButton(nextBtn);
 animateButton(backBtn);
+
+nextBtn.onclick = () => {
+    addRipple(0, 0);
+};
