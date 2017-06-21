@@ -8,26 +8,42 @@ const app = express();
 const client = new osc.Client(serverIp, port);
 const templateGenerator = require("./template-generator");
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 
 // Generated tooken
-const tooken = Math.floor(1000 + Math.random() * 9000);
-const acceptedTooken = 3283;
+const acceptedTooken = [3283];
 
 // Out dir configuration
 app.use("/static", express.static(path.resolve(__dirname, "../../out")));
 
-// Setup express to use cookie parser middlewear.
+// Setup express to use cookie parser middleware.
 app.use(cookieParser());
+
+// Setup Body Parser middleware
+app.use(bodyParser.json());
+
+// Header Middleware
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
 
 // Endroutes
 app.get("/", (req, res) => {
     if (req.cookies.Tooken) {
-        console.log();
+        if (validateCookie(req.cookies.Tooken)) {
+            res.send(templateGenerator(`http://${serverIp}/`, req.cookies.Tooken));
+        }
     } else {
-        res.cookie("Tooken", tooken);
+        // Regen tooken
+        const tooken = Math.floor(1000 + Math.random() * 9000);
+        res.send(templateGenerator(`http://${serverIp}/`, tooken));
     }
+});
 
-    res.send(templateGenerator(`http://${serverIp}/`));
+app.get("/api/validate", (req, res) => {
+    console.log(req.body);
+    res.send(true);
 });
 
 // ###############
@@ -56,12 +72,9 @@ app.get("/api/previous", (req, res) => {
 
 // Pause
 app.get("/api/pause", (req, res) => {
-    // res.send("Pausing running ques");
-    // client.send("/Previous");
-    // client.send("/Pause-Resume");
-    if (!validateCookie(req.cookies.Tooken)) {
-        req.end();
-    }
+    res.send("Pausing running ques");
+    client.send("/Previous");
+    client.send("/Pause-Resume");
 });
 
 // Resume
