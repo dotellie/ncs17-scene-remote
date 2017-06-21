@@ -18,5 +18,13 @@ animateButton(nextBtn);
 animateButton(backBtn);
 
 nextBtn.onclick = () => {
-    addRipple(0, 0);
+    const center = getElCenter(nextBtn);
+    addRipple(center.x, center.y);
+    // addRipple(center.x, center.y, 5);
+    addRipple(center.x, center.y, 10);
+};
+
+const getElCenter = el => {
+    const { top, left, width, height } = el.getBoundingClientRect();
+    return { x: left + width / 2, y: top + height / 2 };
 };
