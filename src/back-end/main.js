@@ -29,16 +29,16 @@ app.use(cors());
 
 // Endroutes
 app.get("/", (req, res) => {
-    console.log("hello World");
+    const apiUrl = `${serverIp}:3000`;
+
     if (req.cookies.Tooken) {
         if (validateCookie(req.cookies.Tooken)) {
-            res.send(templateGenerator(`http://${serverIp}/`, req.cookies.Tooken));
+            res.send(templateGenerator(apiUrl, req.cookies.Tooken));
         }
     } else {
         // Regen tooken
-        const token = Math.floor(1000 + Math.random() * 9000);
-        res.send(templateGenerator(`http://${serverIp}/`, token));
-        console.log(token);
+        const tooken = Math.floor(1000 + Math.random() * 9000);
+        res.send(templateGenerator(apiUrl, tooken));
     }
 });
 
