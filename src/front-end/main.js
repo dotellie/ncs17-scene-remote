@@ -1,5 +1,7 @@
 /* globals apiToken */
 
+import anime from "animejs";
+
 import { validateToken } from "./api.js";
 
 import animateButton from "./animate-button.js";
@@ -32,6 +34,9 @@ animateButton(backBtn, clickHandler);
 setPlayPauseCallback(() => {});
 
 validateToken().then(() => {
-    console.log("token", apiToken);
     document.cookie = `token=${apiToken}`;
+
+    const prompt = document.querySelector("#prompt");
+    prompt.style.opacity = 0;
+    prompt.style.pointerEvents = "none";
 });

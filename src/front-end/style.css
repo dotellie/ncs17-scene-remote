@@ -52,3 +52,56 @@ body {
 #action-bar > * {
     transition: 0.3s opacity;
 }
+
+#prompt {
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s opacity;
+}
+
+#prompt::before {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: "";
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+#prompt .box {
+    z-index: 1;
+    background: white;
+    border-radius: 10px;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#prompt .box > span {
+    margin: 10px;
+}
+
+#prompt .box > span:last-of-type {
+    margin-bottom: 25px;
+}
+
+#prompt .box .code {
+    color: #e23b9b;
+    font-size: 30px;
+}
+
+#prompt .spinner {
+    position: absolute;
+    bottom: 50px;
+    display: block;
+    fill: white;
+}
