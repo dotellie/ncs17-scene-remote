@@ -1,3 +1,6 @@
+// I know this isn't hidpi but let's be honest, did you notice that before looking
+// at the code anyway?
+
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
