@@ -32,8 +32,8 @@ body {
 .next.button {
     top: 0; right: 0; bottom: 0; left: 0;
     margin: auto;
-    width: 70vw;
-    height: 70vw;
+    width: 60vw;
+    height: 60vw;
     font-size: 65px;
     border: 10px solid rgba(226, 59, 155, 0.15);
 }
