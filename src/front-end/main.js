@@ -2,7 +2,7 @@ import animateButton from "./animate-button.js";
 import addRipple from "./ripple.js";
 import { setPlayPauseCallback } from "./play-pause-button";
 
-import "style-loader!./style.css";
+import "./style.css";
 
 const nextBtn = document.querySelector(".next.button");
 const backBtn = document.querySelector(".back.button");
