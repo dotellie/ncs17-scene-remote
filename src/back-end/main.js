@@ -47,21 +47,9 @@ app.get("/api/resume", (req, res) => {
 
 // ===========
 
-// Qlab Tests
-
-const server = new osc.Server(port, serverIp);
+// Recive answers from Qlab.
+const server = new osc.Server(53001, "0.0.0.0");
 server.on("message", (msg, rinfo) => {
-    console.log(msg);
-});
-
-app.get("/api/custom", (req, res) => {
-    client.send("/version");
-    res.send("Hi");
-});
-
-app.get("/reply/version", (req, res) => {
-    console.log("Reply taken");
-    res.send("thanks");
 });
 
 // Start listening for requests.
