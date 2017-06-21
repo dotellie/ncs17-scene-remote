@@ -31,8 +31,9 @@
     "webpack": "^3.0.0"
   },
   "dependencies": {
+    "animejs": "^2.0.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
-    "node-osc": "^2.1.0",
-    "animejs": "^2.0.2"
+    "node-osc": "^2.1.0"
   }
 }
