@@ -1,8 +1,6 @@
 /* globals apiToken */
 
-import anime from "animejs";
-
-import { validateToken } from "./api.js";
+import { validateToken, goNext, goBack, play, pause } from "./api.js";
 
 import animateButton from "./animate-button.js";
 import addRipple from "./ripple.js";
@@ -21,6 +19,12 @@ const clickHandler = btn => {
 
     spawnRipple();
     setTimeout(spawnRipple, 200);
+
+    if (btn === nextBtn) {
+        goNext();
+    } else if (btn === backBtn) {
+        goBack();
+    }
 };
 
 const getElCircle = el => {
@@ -31,7 +35,10 @@ const getElCircle = el => {
 animateButton(nextBtn, clickHandler);
 animateButton(backBtn, clickHandler);
 
-setPlayPauseCallback(() => {});
+setPlayPauseCallback(playing => {
+    if (playing) pause();
+    else play();
+});
 
 validateToken().then(() => {
     document.cookie = `token=${apiToken}`;

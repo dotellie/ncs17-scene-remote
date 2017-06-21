@@ -16,7 +16,23 @@ export const validateToken = () => {
     });
 };
 
-const sendApiRequest = (path, object, method = "POST") => {
+export const goNext = () => {
+    sendApiRequest("next");
+};
+
+export const goBack = () => {
+    sendApiRequest("previous");
+};
+
+export const play = () => {
+    sendApiRequest("resume");
+};
+
+export const pause = () => {
+    sendApiRequest("pause");
+};
+
+const sendApiRequest = (path, object = {}, method = "POST") => {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.addEventListener("load", () => {
