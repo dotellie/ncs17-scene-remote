@@ -10,9 +10,22 @@ const templateGenerator = require("./template-generator");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const UserManager = require("./user-manager.js");
+const menu = require("./menu.js");
 
-// Generated tooken
-const acceptedToken = [3283];
+const validate = (req, res) => {
+    return new Promise((resolve, reject) => {
+        const user = UserManager.getValidUser(req.cookies.token, req.ip);
+
+        if (user) {
+            res.status(200);
+            resolve(user);
+        } else {
+            res.status(401).send({ status: "Access denied" });
+            reject();
+        }
+    });
+};
 
 // Out dir configuration
 app.use("/static", express.static(path.resolve(__dirname, "../../out")));
@@ -22,7 +35,6 @@ app.use(cookieParser());
 
 // Setup Body Parser middleware
 app.use(bodyParser.json());
-// app.use(bodyParser());
 
 // Setup Cors middleware
 app.use(cors());
@@ -30,25 +42,17 @@ app.use(cors());
 // Endroutes
 app.get("/", (req, res) => {
     const apiUrl = `${serverIp}:3000`;
-
-    if (req.cookies.Tooken) {
-        if (validateCookie(req.cookies.Tooken)) {
-            res.send(templateGenerator(apiUrl, req.cookies.Tooken));
-        }
+    if (req.cookies.token && UserManager.getValidUser(req.cookies.token, req.ip)) {
+        res.send(templateGenerator(apiUrl, req.cookies.token));
     } else {
-        // Regen tooken
-        const tooken = Math.floor(1000 + Math.random() * 9000);
-        res.send(templateGenerator(apiUrl, tooken));
+        res.send(templateGenerator(apiUrl, UserManager.generateUser(req.ip).token));
     }
 });
 
 app.post("/api/validate", (req, res) => {
-    console.log(req.body);
-    if (validateCookie(req.body.token)) {
-        res.status(200).send({status: "ok"});
-    } else {
-        res.status(200).send({status: "No access"});
-    }
+    validate(req, res).then(() => {
+        res.send({ status: "ok" });
+    });
 });
 
 // ####################
@@ -56,35 +60,38 @@ app.post("/api/validate", (req, res) => {
 // ####################
 
 // Play Next
-app.get("/api/next", (req, res) => {
-    if (validateCookie(req.cookies.Tooken)) {
-        client.send("/Next");
-        res.send("Playing next in que");
-    } else {
-        res.status(401).send("401 Unathorized access");
-    }
+app.post("/api/next", (req, res) => {
+    // if (validateCookie(req.cookies.Tooken)) {
+    client.send("/Next");
+    res.send({});
+    // } else {
+    //     res.status(401).send("401 Unathorized access");
+    // }
 });
 
 // Playhead Previous:
-app.get("/api/previous", (req, res) => {
-    if (validateCookie(req.cookies.Tooken)) {
-        res.send("Playing previous que");
-        client.send("/Previous");
-    } else {
-        res.status(401).send("401 Unathorized access");
-    }
+app.post("/api/previous", (req, res) => {
+    // if (validateCookie(req.cookies.Tooken)) {
+    res.send({});
+    client.send("/Previous");
+    client.send("/Stop");
+    // client.send("/Next");
+    // } else {
+    //    res.status(401).send("401 Unathorized access");
+    // }
 });
 
 // Pause
-app.get("/api/pause", (req, res) => {
-    res.send("Pausing running ques");
+app.post("/api/pause", (req, res) => {
+    res.send({});
     client.send("/Previous");
     client.send("/Pause-Resume");
 });
 
 // Resume
-app.get("/api/resume", (req, res) => {
-    res.send("Resuming paused ques");
+app.post("/api/resume", (req, res) => {
+    res.send({});
+    // client.send("/Previous");
     client.send("/Pause-Resume");
 });
 
@@ -98,14 +105,7 @@ server.on("message", (msg, rinfo) => {
 
 // Start listening for requests.
 app.listen(3000, () => {
-    console.log("App is running on: http://localhost:3000");
+    // console.log("App is running on: http://localhost:3000");
 });
 
-// Functions
-let validateCookie = (cookie) => {
-    for (let i = 0; i < acceptedToken.length; i++) {
-        if (parseInt(cookie) === acceptedToken[i]) {
-            return true;
-        }
-    }
-};
+menu.show();
