@@ -9,9 +9,10 @@ const client = new osc.Client(serverIp, port);
 const templateGenerator = require("./template-generator");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 // Generated tooken
-const acceptedTooken = [3283];
+const acceptedToken = [3283];
 
 // Out dir configuration
 app.use("/static", express.static(path.resolve(__dirname, "../../out")));
@@ -21,34 +22,38 @@ app.use(cookieParser());
 
 // Setup Body Parser middleware
 app.use(bodyParser.json());
+// app.use(bodyParser());
 
-// Header Middleware
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    next();
-});
+// Setup Cors middleware
+app.use(cors());
 
 // Endroutes
 app.get("/", (req, res) => {
+    console.log("hello World");
     if (req.cookies.Tooken) {
         if (validateCookie(req.cookies.Tooken)) {
             res.send(templateGenerator(`http://${serverIp}/`, req.cookies.Tooken));
         }
     } else {
         // Regen tooken
-        const tooken = Math.floor(1000 + Math.random() * 9000);
-        res.send(templateGenerator(`http://${serverIp}/`, tooken));
+        const token = Math.floor(1000 + Math.random() * 9000);
+        res.send(templateGenerator(`http://${serverIp}/`, token));
+        console.log(token);
     }
 });
 
-app.get("/api/validate", (req, res) => {
+app.post("/api/validate", (req, res) => {
     console.log(req.body);
-    res.send(true);
+    if (validateCookie(req.body.token)) {
+        res.status(200).send({status: "ok"});
+    } else {
+        res.status(200).send({status: "No access"});
+    }
 });
 
-// ###############
-//  API Endroutes
-// ###############
+// ####################
+//  API OSC Endroutes
+// ####################
 
 // Play Next
 app.get("/api/next", (req, res) => {
@@ -97,7 +102,10 @@ app.listen(3000, () => {
 });
 
 // Functions
-
 let validateCookie = (cookie) => {
-    return (parseInt(cookie) === acceptedTooken);
+    for (let i = 0; i < acceptedToken.length; i++) {
+        if (parseInt(cookie) === acceptedToken[i]) {
+            return true;
+        }
+    }
 };
