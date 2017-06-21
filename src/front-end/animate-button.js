@@ -26,6 +26,6 @@ export default (button, onclick) => {
 
     button.addEventListener("touchstart", playPush);
     button.addEventListener("touchend", playRelease);
-    button.addEventListener("mousedown", playPush);
-    button.addEventListener("mouseup", playRelease);
+    // button.addEventListener("mousedown", playPush);
+    // button.addEventListener("mouseup", playRelease);
 };
