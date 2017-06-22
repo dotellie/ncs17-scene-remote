@@ -50,7 +50,7 @@ class TokenManager {
 
     load() {
         try {
-            this.users = jsonfile.readFileSync(jsonPath);
+            this.users = jsonfile.readFileSync(jsonPath).map(user => new User(user));
         } catch (e) {}
     }
 
@@ -65,9 +65,16 @@ class TokenManager {
 
 class User {
     constructor(token, ip) {
-        this.token = token;
-        this.ip = ip;
-        this.expirationTime = moment(0);
+        if (typeof token === "object") {
+            this.token = token.token;
+            this.ip = token.ip;
+            this.expirationTime = moment(token.expirationTime);
+            this.description = token.description;
+        } else {
+            this.token = token;
+            this.ip = ip;
+            this.expirationTime = moment(0);
+        }
     }
 
     get valid() {
