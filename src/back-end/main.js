@@ -1,4 +1,5 @@
-const serverIp = "10.0.0.168";
+const serverIp = "192.168.1.23";
+const qlabIp = "192.168.1.7";
 const port = "53000";
 const qlabWorkspaceId = "42C4DDC1-7E11-4215-BF4F-72E3DB17EC97";
 
@@ -8,7 +9,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const client = new osc.Client(serverIp, port);
+const client = new osc.Client(qlabIp, port);
 const app = express();
 
 const templateGenerator = require("./template-generator.js");
