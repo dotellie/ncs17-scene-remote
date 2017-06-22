@@ -1,4 +1,7 @@
 const inquirer = require("inquirer");
+const chalk = require("chalk");
+const clear = require("clear");
+const figlet = require("figlet");
 const UserManager = require("./user-manager.js");
 
 const tokenValidation = (value) => {
@@ -57,25 +60,51 @@ const removeTokenMenu = [
     }
 ];
 
+const log = console.log;
+
+const makeSkeleton = name => {
+    clear();
+    log(chalk.hex("#e23b9b")(figlet.textSync("NCS17 Scene Remote")));
+    log(`${name}\n`);
+};
+
+const listenForKey = message => {
+    return new Promise((resolve, reject) => {
+        process.stdin.setRawMode(true);
+        process.stdin.resume();
+        process.stdin.once("data", () => {
+            process.stdin.setRawMode(false);
+            process.stdin.resume();
+            resolve();
+        });
+    });
+};
+
 // View menu in console.
 const show = () => {
+    makeSkeleton("Main Menu");
+
     inquirer.prompt(mainMenu).then((ans) => {
         switch (ans.mainMenu) {
             case "1. Add token":
+                makeSkeleton("Add User");
                 inquirer.prompt(addUserMenu).then((ans) => {
                     UserManager.validateUser(parseInt(ans.token), ans.description, ans.duration);
                     show();
                 });
                 break;
             case "2. Remove token":
+                makeSkeleton("Remove User");
                 inquirer.prompt(removeTokenMenu).then((ans) => {
                     UserManager.removeUser(parseInt(ans.token));
                     show();
                 });
                 break;
             case "3. List tokens":
-                console.log(UserManager.users.map(u => `${u.token}<>${u.ip}: ${u.description}, expires: ${u.expires}`).join("\n"));
-                show();
+                makeSkeleton("List Users");
+                log(UserManager.users.map(u => `${u.token}<>${u.ip}: ${u.description}, expires: ${u.expires}`).join("\n"));
+                log("\nPress any key to return to menu...");
+                listenForKey().then(show);
                 break;
         }
     });

@@ -33,10 +33,13 @@
   "dependencies": {
     "animejs": "^2.0.2",
     "body-parser": "^1.17.2",
+    "chalk": "git+https://github.com/chalk/chalk.git",
+    "clear": "0.0.1",
     "console-ui": "^1.0.3",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.3",
     "express": "^4.15.3",
+    "figlet": "^1.2.0",
     "inquirer": "^3.1.1",
     "moment": "^2.18.1",
     "node-osc": "^2.1.0"
