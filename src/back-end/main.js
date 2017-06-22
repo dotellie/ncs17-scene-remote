@@ -106,6 +106,12 @@ app.listen(3000, () => {
 });
 
 menu.show();
+process.stdin.on("keypress", (ch, key) => {
+    if (key.name === "escape") {
+        menu.cancel();
+        menu.show();
+    }
+});
 
 const osc1 = require("./osc-sugar.js");
 osc1(`/workspace/${qlabWorkspaceId}/runningCues`).then(res => {

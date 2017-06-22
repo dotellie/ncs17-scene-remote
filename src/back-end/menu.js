@@ -4,6 +4,8 @@ const clear = require("clear");
 const figlet = require("figlet");
 const UserManager = require("./user-manager.js");
 
+let currentInquire;
+
 const tokenValidation = (value) => {
     if (/^\d{4}$/.test(value) && UserManager.has(parseInt(value))) {
         return true;
@@ -77,11 +79,13 @@ const listenForKey = message => {
     });
 };
 
+const inquire = menu => (currentInquire = inquirer.prompt(menu));
+
 // View menu in console.
 const showMenu = async() => {
     makeSkeleton("Main Menu");
 
-    const { whereTo } = await inquirer.prompt(mainMenu);
+    const { whereTo } = await inquire(mainMenu);
 
     const index = mainMenu[0].choices.findIndex(c => c === whereTo);
 
@@ -99,14 +103,14 @@ const showMenu = async() => {
 const showAddUser = async() => {
     makeSkeleton("Add User");
 
-    const { token, description, duration } = await inquirer.prompt(addUserMenu);
+    const { token, description, duration } = await inquire(addUserMenu);
     UserManager.validateUser(parseInt(token), description, duration);
 };
 
 const showRemoveUser = async() => {
     makeSkeleton("Remove User");
 
-    const { token } = await inquirer.prompt(removeTokenMenu);
+    const { token } = await inquire(removeTokenMenu);
     UserManager.removeUser(parseInt(token));
 };
 
@@ -119,3 +123,8 @@ const showListUsers = async() => {
 };
 
 module.exports.show = showMenu;
+module.exports.cancel = () => {
+    if (currentInquire) {
+        currentInquire.ui.close();
+    }
+};
