@@ -31,7 +31,7 @@ class TokenManager {
     }
 
     has(token) {
-        return this._getUserIndex(token) <= 0;
+        return this._getUserIndex(token) >= 0;
     }
 
     _getUser(token) {
