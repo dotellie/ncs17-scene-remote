@@ -1,8 +1,18 @@
 const moment = require("moment");
+const jsonfile = require("jsonfile");
+
+const jsonPath = require("path").resolve("./.users.json");
 
 class TokenManager {
     constructor() {
         this.users = [];
+
+        this.load();
+
+        process.on("SIGINT", () => {
+            this.save();
+            process.exit();
+        });
     }
 
     generateUser(ip) {
@@ -32,6 +42,16 @@ class TokenManager {
 
     has(token) {
         return this._getUserIndex(token) >= 0;
+    }
+
+    save() {
+        jsonfile.writeFileSync(jsonPath, this.users);
+    }
+
+    load() {
+        try {
+            this.users = jsonfile.readFileSync(jsonPath);
+        } catch (e) {}
     }
 
     _getUser(token) {
