@@ -5,20 +5,17 @@ const figlet = require("figlet");
 const UserManager = require("./user-manager.js");
 
 const tokenValidation = (value) => {
-    if (/^\d{4}$/.test(value)) {
+    if (/^\d{4}$/.test(value) && UserManager.has(parseInt(value))) {
         return true;
     }
-    if (UserManager.has(parseInt(value))) {
-        return true;
-    }
-    return "token format not accepted";
+    return "Token is invalid";
 };
 
 const durationValidation = (value) => {
     if (!value || (/^\d+$/.test(value) && parseInt(value) < 1440)) {
         return true;
     }
-    return "Time not valid";
+    return "Time is invalid (or too long)";
 };
 
 // Console Menu Objects:
@@ -26,8 +23,8 @@ const mainMenu = [
     {
         type: "list",
         name: "whereTo",
-        message: "Where do you want to go?",
-        choices: ["1. Add token", "2. Remove token", "3. List tokens"]
+        message: "Select an action",
+        choices: ["1. Add User", "2. Remove User", "3. List Users"]
     }
 ];
 
@@ -36,7 +33,7 @@ const addUserMenu = [
         type: "input",
         name: "token",
         validate: tokenValidation,
-        message: "Enter a token to allow"
+        message: "Enter the users token"
     },
     {
         type: "input",
@@ -47,7 +44,7 @@ const addUserMenu = [
         type: "input",
         name: "duration",
         validate: durationValidation,
-        message: "Enter minutes from now when user shoudl expire (default 75 min)"
+        message: "Enter minutes from now when user should expire (default 75 min)"
     }
 ];
 
@@ -56,7 +53,7 @@ const removeTokenMenu = [
         type: "input",
         name: "token",
         validate: tokenValidation,
-        message: "Enter a token to remove"
+        message: "Enter the token of the user you want to remove"
     }
 ];
 
