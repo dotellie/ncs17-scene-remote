@@ -9,12 +9,14 @@ class TokenManager {
         const token = Math.floor(1000 + Math.random() * 9000);
         const user = new User(token, ip);
         this.users.push(user);
-
         return user;
     }
 
-    validateUser(token, description, duration = 75) {
-        const expirationTime = moment().add(duration, "m");
+    validateUser(token, description, duration) {
+        if (typeof duration !== "number" && !duration) {
+            duration = 75;
+        }
+        const expirationTime = moment().add(parseInt(duration), "m");
         this._getUser(token).validate(description, expirationTime);
     }
 
@@ -45,10 +47,11 @@ class User {
     constructor(token, ip) {
         this.token = token;
         this.ip = ip;
+        this.expirationTime = moment(0);
     }
 
     get valid() {
-        moment().isBefore(this.expirationTime);
+        return moment().isBefore(this.expirationTime);
     }
 
     validate(description, expirationTime) {

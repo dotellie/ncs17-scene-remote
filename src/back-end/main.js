@@ -18,7 +18,8 @@ const menu = require("./menu.js");
 
 const validate = (req, res) => {
     return new Promise((resolve, reject) => {
-        const user = UserManager.getValidUser(req.cookies.token, req.ip);
+        const token = parseInt(req.body.token || req.cookies.token);
+        const user = UserManager.getValidUser(token, req.ip);
 
         if (user) {
             res.status(200);
@@ -45,7 +46,7 @@ app.use(cors());
 // Endroutes
 app.get("/", (req, res) => {
     const apiUrl = `${serverIp}:3000`;
-    if (req.cookies.token && UserManager.getValidUser(req.cookies.token, req.ip)) {
+    if (req.cookies.token && UserManager.getValidUser(parseInt(req.cookies.token), req.ip)) {
         res.send(templateGenerator(apiUrl, req.cookies.token));
     } else {
         res.send(templateGenerator(apiUrl, UserManager.generateUser(req.ip).token));
@@ -104,19 +105,12 @@ app.listen(3000, () => {
     // console.log("App is running on: http://localhost:3000");
 });
 
-// menu.show();
-
-const qlabSelectedQues = (workspaceId) => {
-    client.send(`/workspace/${workspaceId}/runningCues`);
-};
+menu.show();
 
 const osc1 = require("./osc-sugar.js");
 osc1(`/workspace/${qlabWorkspaceId}/runningCues`).then(res => {
     const cues = res.data.find(t => t.type === "Cue List" && t.armed).cues;
-    // console.log(cues.map(t => parseInt(t.number)));
     const currentNumber = cues.map(t => parseInt(t.number)).reduce((a, t) => (a = Math.max(t, a)));
-    // const current = cues.find(t => t.number === `${currentNumber}`);
-    // console.log(current);
     return osc1(`/cue/${currentNumber}/duration`);
 }).then(res => {
     console.log(res);

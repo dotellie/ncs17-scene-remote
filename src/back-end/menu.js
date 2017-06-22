@@ -63,7 +63,7 @@ const show = () => {
         switch (ans.mainMenu) {
             case "1. Add token":
                 inquirer.prompt(addUserMenu).then((ans) => {
-                    UserManager.validateUser(parseInt(ans.token), ans.description, parseInt(ans.duration));
+                    UserManager.validateUser(parseInt(ans.token), ans.description, ans.duration);
                     show();
                 });
                 break;
