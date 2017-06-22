@@ -74,8 +74,7 @@ const show = () => {
                 });
                 break;
             case "3. List tokens":
-                // console.log(`\n ${acceptedToken} \n`);
-                console.log(`\n ${UserManager.users} \n`);
+                console.log(UserManager.users.map(u => `${u.token}<>${u.ip}: ${u.description}, expires: ${u.expires}`).join("\n"));
                 show();
                 break;
         }
