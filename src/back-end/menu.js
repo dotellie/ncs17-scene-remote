@@ -25,7 +25,7 @@ const durationValidation = (value) => {
 const mainMenu = [
     {
         type: "list",
-        name: "mainMenu",
+        name: "whereTo",
         message: "Where do you want to go?",
         choices: ["1. Add token", "2. Remove token", "3. List tokens"]
     }
@@ -81,33 +81,44 @@ const listenForKey = message => {
 };
 
 // View menu in console.
-const show = () => {
+const showMenu = async() => {
     makeSkeleton("Main Menu");
 
-    inquirer.prompt(mainMenu).then((ans) => {
-        switch (ans.mainMenu) {
-            case "1. Add token":
-                makeSkeleton("Add User");
-                inquirer.prompt(addUserMenu).then((ans) => {
-                    UserManager.validateUser(parseInt(ans.token), ans.description, ans.duration);
-                    show();
-                });
-                break;
-            case "2. Remove token":
-                makeSkeleton("Remove User");
-                inquirer.prompt(removeTokenMenu).then((ans) => {
-                    UserManager.removeUser(parseInt(ans.token));
-                    show();
-                });
-                break;
-            case "3. List tokens":
-                makeSkeleton("List Users");
-                log(UserManager.users.map(u => `${u.token}<>${u.ip}: ${u.description}, expires: ${u.expires}`).join("\n"));
-                log("\nPress any key to return to menu...");
-                listenForKey().then(show);
-                break;
-        }
-    });
+    const { whereTo } = await inquirer.prompt(mainMenu);
+
+    const index = mainMenu[0].choices.findIndex(c => c === whereTo);
+
+    if (index === 0) {
+        await showAddUser();
+    } else if (index === 1) {
+        await showRemoveUser();
+    } else if (index === 2) {
+        await showListUsers();
+    }
+
+    showMenu();
 };
 
-module.exports.show = show;
+const showAddUser = async() => {
+    makeSkeleton("Add User");
+
+    const { token, description, duration } = await inquirer.prompt(addUserMenu);
+    UserManager.validateUser(parseInt(token), description, duration);
+};
+
+const showRemoveUser = async() => {
+    makeSkeleton("Remove User");
+
+    const { token } = await inquirer.prompt(removeTokenMenu);
+    UserManager.removeUser(parseInt(token));
+};
+
+const showListUsers = async() => {
+    makeSkeleton("List Users");
+
+    log(UserManager.users.map(u => `${u.token}<>${u.ip}: ${u.description}, expires: ${u.expires}`).join("\n"));
+    log("\nPress any key to return to menu...");
+    await listenForKey();
+};
+
+module.exports.show = showMenu;
